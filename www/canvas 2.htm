@@ -1,0 +1,35 @@
+<!DOCTYPE hyml>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Canvas</title>
+<script type = "text/javascript">
+var cvs, ctx;
+window.onload = function(){
+	cvs = document.getElementById("cvs");
+	ctx = cvs.getContext("2d");
+	//載入影像
+	var img = new Image();
+	img.src ="DSC01905.jpg";
+	img.onload = function(){//圖片載入完成再繪製
+		ctx.drawImage(img, 0, 0, 400, 600);
+	};
+};
+function invertColor(){
+	var pixels = ctx.getImageData(0, 0, 400, 600);//imagedata物件
+	var data = pixels.data; //一個像素佔據 4 個資料(bytes) r g b a
+	for(var i = 0;i<data.length; i+=4){
+		data[i] = 255-data[i];
+		data[i+1] = 255-data[i+1];
+		data[i+2] = 255-data[i+2];
+	}
+	ctx.putImageData(pixels, 0, 0);
+}
+
+</script>
+</head>
+<body>
+<div><button onclick = "invertColor();">顏色反轉</button></div>
+	<canvas id = "cvs" width = "800" height = "600" style = "border:1px solid #000000"></canvas>
+</body>
+</html>
